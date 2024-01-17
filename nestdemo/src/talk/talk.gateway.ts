@@ -34,10 +34,6 @@ export class TalkGateway
     console.log('TalkGateway init.');
   }
 
-  handleDisconnect(client: WebSocket) {
-    // client.send('close'); // 因为使用socket.io 所以不太适合使用更底层的 send，数据格式不一致。
-    console.log(`client: ${client} disconnect.`);
-  }
   handleConnection(client: WebSocket, ...args: any[]) {
     // client.send('open'); // 因为使用socket.io 所以不太适合使用更底层的 send，数据格式不一致。
     console.log(
@@ -45,6 +41,19 @@ export class TalkGateway
       // args.map((i) => Object.getPrototypeOf(i)),
       `client: ${client} connect. ${args.length} argc.`,
     );
+    const timer = setInterval(() => {
+      console.log('tick');
+      if (client.readyState != client.OPEN) {
+        clearInterval(timer);
+      }
+      // client.emit('tick', { data: timer }); // 官方文档的 emit 示例不可用，只能调用 send（可能源码改了，官方示例没改）
+      client.send('tick');
+    }, 4000);
+  }
+
+  handleDisconnect(client: WebSocket) {
+    // client.send('close'); // 因为使用socket.io 所以不太适合使用更底层的 send，数据格式不一致。
+    console.log(`client: ${client} disconnect.`);
   }
 
   // 方法名字随意 官方示例多以 handleMessage onEvent 为例。
@@ -66,6 +75,8 @@ export class TalkGateway
     @MessageBody() payload: string,
     @ConnectedSocket() client: WebSocket, // 这个实例缺少很多信息（很多字段都是空的）
   ): WsResponse<unknown> {
+    // client.emit('tick', { data: 'on say' }); // 不可用
+
     return {
       event: 'said',
       data: `on said. ${payload}, ${client.readyState}`,
