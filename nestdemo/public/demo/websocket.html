@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>WebSocket Demo</title>
+  </head>
+  <body>
+    <script>
+      const socket = new WebSocket(`ws://${location.host}`);
+      socket.onopen = function () {
+        console.log('Connected');
+        socket.send(
+          JSON.stringify({
+            event: 'talk',
+            data: 'test',
+          }),
+        );
+        socket.send(
+          JSON.stringify({
+            event: 'say',
+            data: 'test say',
+          }),
+        );
+        socket.onmessage = function (data) {
+          console.log(data);
+        };
+      };
+    </script>
+  </body>
+</html>
