@@ -11,6 +11,8 @@ import {
 } from '@nestjs/websockets';
 import WebSocket, { Server } from 'ws';
 
+// nestjs 文档不全
+// 资料 https://github.com/websockets/ws
 // 指定端口时，端口不能和 HTTP 同一个。。
 // @WebSocketGateway(3001, {
 //   transports: ['websocket'],
@@ -34,6 +36,7 @@ export class TalkGateway
     console.log('TalkGateway init.');
   }
 
+  // handleConnection(client: WebSocket, ...args: any[]) {
   handleConnection(client: WebSocket, ...args: any[]) {
     // client.send('open'); // 因为使用socket.io 所以不太适合使用更底层的 send，数据格式不一致。
     console.log(
@@ -41,13 +44,17 @@ export class TalkGateway
       // args.map((i) => Object.getPrototypeOf(i)),
       `client: ${client} connect. ${args.length} argc.`,
     );
+
+    const req = args[0];
+    console.log('req', req.socket.remoteAddress);
+
     const timer = setInterval(() => {
       console.log('tick');
       if (client.readyState != client.OPEN) {
         clearInterval(timer);
       }
       // client.emit('tick', { data: timer }); // 官方文档的 emit 示例不可用，只能调用 send（可能源码改了，官方示例没改）
-      client.send('tick');
+      client.send('tick', { binary: false }); // 可以通过 binary 发送二进制消息。
     }, 4000);
   }
 
