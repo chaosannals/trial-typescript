@@ -4,7 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { WsAdapter } from '@nestjs/platform-ws';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const config = new DocumentBuilder()
     .setTitle('Talk Docs')
     .setDescription('The Talk API description')
@@ -17,6 +17,7 @@ async function bootstrap() {
 
   app.useWebSocketAdapter(new WsAdapter(app));
 
-  await app.listen(3000);
+  // app.enableCors();
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
