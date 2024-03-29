@@ -1,5 +1,22 @@
 # trial typescript
 
+## 类型系统
+
+### keyof
+
+```typescript
+// keyof 得到的是个枚举类型
+type A = keyof any; // string | number | symbol ; 这点很诡异，是个“类型枚举”，而具体类得到的是个“字符串枚举”，为什么这样？约定俗成吧。而且这也影响到了泛型的 T ，因为默认泛型 T 就是 any。
+class C {
+    a: string;
+    b: number;
+}
+type B = keyof C; // "a" | "b" ; 得到的是一个字符串枚举。
+
+type B2 = keyof C & string; // 这么写好像完全没有意义，因为具体类型的枚举就是 string 的。
+//但是在泛型里配置拼接语法就可以限定类型。
+```
+
 ## 应急方式
 
 ```ts
