@@ -37,6 +37,9 @@ aaa= 123
 ```bash
 # 创建项目
 npx create-next-app@latest
+
+## 调试模式不会刷新。。 F5 也不行，开发体验奇差。
+npm run dev
 ```
 
 ### 目录
@@ -47,13 +50,20 @@ npx create-next-app@latest
 
 这 3 个可选放到 src 目录下，这样可以放多些其他的代码一起管理在 src 下。
 
-### app 模式和 pages 模式
+### app 模式
 
-app 模式比较健壮，目录名代表路径，page.tsx 代表该目录路径的页。就不会出现 pages 模式二义性的问题。
+app 模式比较健壮，目录名代表路径，page.tsx 代表该目录路径的页。就不会出现 pages 模式二义性的问题。但是路径参数也是体现在目录名上，会出现诡异的目录名（如：[...args]）
 
 - / => app/page.tsx
 - /about => app/about/page.tsx
 - /some => app/some/page.tsx
+
+#### layout.tsx
+
+布局是一层层嵌套的，而非替代：
+app/layout.tsx 会作用于所有页面， app/about/layout.tsx 被当作顶层布局的 children 被加载。
+
+### pages 模式
 
 pages 类似类似 PHP ，文件名 index.tsx 代表目录 其他的是目录名和文件名
 
