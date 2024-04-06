@@ -39,7 +39,28 @@ aaa= 123
 npx create-next-app@latest
 ```
 
+### 目录
+
+- app	App Router  App 模式
+- pages	Pages Router  Pages 模式
+- public	Static assets to be served 静态文件
+
+这 3 个可选放到 src 目录下，这样可以放多些其他的代码一起管理在 src 下。
+
 ### app 模式和 pages 模式
 
-这 两种模式只能取一种。
+app 模式比较健壮，目录名代表路径，page.tsx 代表该目录路径的页。就不会出现 pages 模式二义性的问题。
+
+- / => app/page.tsx
+- /about => app/about/page.tsx
+- /some => app/some/page.tsx
+
+pages 类似类似 PHP ，文件名 index.tsx 代表目录 其他的是目录名和文件名
+
+- / => pages/index.tsx
+- /about => pages/about.tsx 或者 pages/about/index.tsx
+- /some/thing => pages/some/thing.tsx 或者 pages/some/thing/index.tsx
+
+注：两种模式只能取绑定的路径一种，例如：
 app/page.tsx 和 pages\index.tsx 会冲突，必须删掉一个。
+
