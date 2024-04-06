@@ -30,3 +30,16 @@ aaa= 123
 // 对某些文件的检查
 // @ts-check
 ```
+
+
+## next
+
+```bash
+# 创建项目
+npx create-next-app@latest
+```
+
+### app 模式和 pages 模式
+
+这 两种模式只能取一种。
+app/page.tsx 和 pages\index.tsx 会冲突，必须删掉一个。
